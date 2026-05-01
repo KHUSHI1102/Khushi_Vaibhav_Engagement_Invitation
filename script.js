@@ -24,12 +24,6 @@ if (video) {
   });
 }
 
-// Skip button
-function goToInvite() {
-  document.body.classList.add(FADE_CLASS);
-  // small delay so user sees the fade
-  setTimeout(() => { window.location.href = NAV_TARGET; }, 300);
-}
 
 // Scroll reveal: add `.in-view` to elements with .fade-in when they enter the viewport
 (function setupScrollReveal() {
