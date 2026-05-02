@@ -1,47 +1,64 @@
-// Redirect with fade-out after video ends
 const video = document.getElementById("introVideo");
-const FADE_CLASS = 'page-fade-out';
-const NAV_TARGET = 'invite.html';
+const FADE_CLASS = "page-fade-out";
+const NAV_TARGET = "invite.html";
 
 function navigateAfterFade() {
-  const timeout = setTimeout(() => { window.location.href = NAV_TARGET; }, 1200);
-  // try to listen for transitionend on body for a graceful handoff
-  document.body.addEventListener('transitionend', function onEnd(e) {
-    if (e.target === document.body) {
-      clearTimeout(timeout);
-      document.body.removeEventListener('transitionend', onEnd);
-      window.location.href = NAV_TARGET;
-    }
-  });
+  setTimeout(() => {
+    window.location.href = NAV_TARGET;
+  }, 1000); 
 }
 
 if (video) {
-  video.addEventListener('ended', () => {
-    // add fade class to body to trigger CSS transition
+
+  video.muted = true;
+  video.play().catch(() => {
+    console.log("Autoplay blocked");
+  });
+
+  video.addEventListener("ended", () => {
     document.body.classList.add(FADE_CLASS);
-    // ensure navigation after the fade
     navigateAfterFade();
   });
+
+  const skipBtn = document.querySelector(".skip-btn");
+  if (skipBtn) {
+    skipBtn.addEventListener("click", () => {
+      document.body.classList.add(FADE_CLASS);
+      navigateAfterFade();
+    });
+  }
 }
 
-
-// Scroll reveal: add `.in-view` to elements with .fade-in when they enter the viewport
 (function setupScrollReveal() {
-  const items = Array.from(document.querySelectorAll('.fade-in'));
-  if (!items.length || typeof IntersectionObserver === 'undefined') return;
+  const items = document.querySelectorAll(".fade-in");
+
+  if (!items.length || typeof IntersectionObserver === "undefined") return;
 
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+    entries.forEach((entry, index) => {
       if (entry.isIntersecting) {
         const el = entry.target;
-  const idx = items.indexOf(el);
-  // slower base delay and wider stagger so first items are more noticeable
-  const delay = Math.min(500 + (idx * 160), 1400);
-        setTimeout(() => el.classList.add('in-view'), delay);
+
+        el.style.transitionDelay = `${index * 120}ms`;
+
+        el.classList.add("in-view");
         observer.unobserve(el);
       }
     });
-  }, { threshold: 0.12 });
+  }, {
+    threshold: 0.15
+  });
 
-  items.forEach(i => observer.observe(i));
+  items.forEach((item) => observer.observe(item));
 })();
+
+
+document.addEventListener("contextmenu", (e) => e.preventDefault());
+
+document.addEventListener("dragstart", (e) => e.preventDefault());
+
+document.addEventListener("keydown", function (e) {
+  if (e.ctrlKey && ["s", "u", "c"].includes(e.key.toLowerCase())) {
+    e.preventDefault();
+  }
+});

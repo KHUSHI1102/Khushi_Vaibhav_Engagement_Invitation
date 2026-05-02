@@ -188,12 +188,41 @@ video {
   }
 }
 
-.group-45 {
-  width: 60%;
-  max-width: 260px;
-  margin-top: 40% ;
-  position: relative; 
-  z-index: 10001; 
+.couple-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  height: 100%;
+  margin-top:180px;
+  margin-bottom: 80px;
+}
+
+.photo {
+  position: absolute;
+}
+
+.photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.photo-left {
+  width: auto;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.photo-right {
+  width: 55%;
+  height: 100%;
+  top: 70px;          
+  right: 20px;
+  transform: rotate(12deg);
+  z-index: 3;
 }
 
 .date-img {
@@ -208,8 +237,6 @@ video {
   margin-top: 8px;
 }
 
-/* Calendar wrapper */
-/* Wrapper */
 .calendar-wrap {
   position: relative;
   width: 95%;
@@ -217,7 +244,6 @@ video {
   margin-top: 10px;
 }
 
-/* Calendar on top */
 .calendar-img {
   width: 100%;
   display: block;
@@ -225,13 +251,11 @@ video {
   z-index: 2;
 }
 
-/* Heart behind calendar */
 .heart-img {
   position: absolute;
-  width: 9%;
+  width: 10%;
   max-width: 55px;
 
-  /* 👇 Adjust these values to align with "12" */
   top: 50%;
   left: 35.5%;
 
@@ -244,14 +268,26 @@ video {
 .heart-img {
   filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.6));
 }
-/* Animation */
+@media (max-width: 600px) {
+  .couple-wrap {
+    height: 220px;
+  }
+
+  .photo-left {
+    width: 60%;
+  }
+
+  .photo-right {
+    width: 60%;
+    transform: rotate(10deg);
+  }
+}
 @keyframes heartbeat {
   0%   { transform: translate(-50%, -50%) scale(1); }
   50%  { transform: translate(-50%, -50%) scale(1.1); }
   100% { transform: translate(-50%, -50%) scale(1); }
 }
 
-/* Heart animation */
 @keyframes heartbeat {
   0%   { transform: translate(-50%, -50%) scale(1); }
   25%  { transform: translate(-50%, -50%) scale(1.1); }
@@ -260,7 +296,6 @@ video {
   100% { transform: translate(-50%, -50%) scale(1); }
 }
 
-/* Calendar number (blinking) */
 .calendar-number {
   position: absolute;
   top: 78%;
@@ -274,7 +309,7 @@ video {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.25);
   animation: blink 1.1s infinite;
-  z-index: 10003; /* above the heart and leaves */
+  z-index: 10003; 
 }
 
 @keyframes blink {
@@ -359,7 +394,6 @@ video {
 .fade-in {
   opacity: 0;
   transform: translateY(20px);
-  /* slightly slower so initial elements are more noticeable */
   transition: opacity 900ms cubic-bezier(.2,.9,.27,1), transform 900ms cubic-bezier(.2,.9,.27,1);
   will-change: opacity, transform;
 }
